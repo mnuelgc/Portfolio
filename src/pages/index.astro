@@ -8,7 +8,7 @@ import { getRelativeLocaleUrl } from "astro:i18n";
 const projects = await getCollection("projectsEN");
 ---
 
-<Layout title="Manuel Gómez Cámara">
+<Layout title="Manuel Gómez Cámara - WIP">
   <header
     class="z-50 flex justify-end items-center justify-item-end top-0 fixed h-20 w-full bg-blue-400"
   >
@@ -28,11 +28,19 @@ const projects = await getCollection("projectsEN");
         class="lg:mx-12 mx-auto max-w-sm max-h-sm md:max-w-md md:max-h-md my-20"
       />
 
-      <h1 class="text-7xl text-white font-bold">
-        Manuel Gómez <span class="block text-5xl text-blue-400"
-          >Mobile Developer</span
-        >
-      </h1>
+      <section>
+        <h1 class="text-7xl text-white font-bold">
+          Manuel Gómez <span class="block text-5xl text-blue-400"
+            >Mobile Developer</span
+          >
+        </h1>
+
+        <h3 class="block text-xl text-white underline my-4 hover:text-blue-400">
+          <a href="mailto:job@manuelgomezcamara.com"
+            >job@manuelgomezcamara.com</a
+          >
+        </h3>
+      </section>
     </section>
     <section class="text-2xl lg:mx-auto prose prose-invert mx-10">
       <p>
