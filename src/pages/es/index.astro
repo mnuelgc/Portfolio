@@ -1,0 +1,113 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Card from "../../components/Card.astro";
+
+import { getCollection } from "astro:content";
+
+import { getRelativeLocaleUrl } from "astro:i18n";
+//defaultLocale es "es""
+
+const projects = await getCollection("projectsES");
+---
+
+<Layout title="Manuel Gómez Cámara">
+  <header
+    class="z-50 flex justify-end items-center justify-item-end top-0 fixed h-20 w-full bg-blue-400"
+  >
+    <a
+      transition:name={"changeLanguage"}
+      class="mr-12 hover:text-gray-700"
+      href={getRelativeLocaleUrl("en", `/`)}
+    >
+      <span>Change to English</span>
+    </a>
+  </header>
+  <main class="mb-52">
+    <section class="lg:flex lg:items-center justify-center text-center my-10">
+      <img
+        src="/circularphoto.png"
+        alt="Foto de Manuel, se ve un hombre con gafas y barba, la foto tiene forma circular, está en blanco y negro con el fondo en rojo con un degradado hacia blanco conforme se acerca al centro"
+        class="lg:mx-12 mx-auto max-w-sm max-h-sm md:max-w-md md:max-h-md my-20"
+      />
+
+      <h1 class="text-7xl text-white font-bold">
+        Manuel Gómez <span class="block text-5xl text-blue-400"
+          >Mobile Developer</span
+        >
+      </h1>
+    </section>
+    <section class="text-2xl lg:mx-auto prose prose-invert mx-10">
+      <p>
+        Ingeniero de software móvil con más de 4 años de experiencia en el
+        diseño y desarrollo de aplicaciones multiplataforma y nativas,
+        especializado en tecnologías como <span class="text-blue-400 font-bold">
+          Unity</span
+        >, <span class="text-blue-400 font-bold"> Kotlin</span> y <span
+          class="text-blue-400 font-bold"
+        >
+          Swift</span
+        >. He trabajado en equipos en proyectos de <span
+          class="text-blue-400 font-bold"
+        >
+          Realidad Aumentada</span
+        > y <span class="text-blue-400 font-bold"> Virtual</span>, desde la
+        conceptualización hasta la implementación y lanzamiento.
+      </p>
+      <p>
+        Para profundizar mis conocimientos en el campo del <span
+          class="text-blue-400 font-bold"
+        >
+          desarrollo móvil</span
+        >
+        recientemente cursé el máster de desarrollo móvil de la Universidad de Alicante,
+        donde profundicé en el desarrollo móvil nativo para Android e iOS con Kotlin
+        usando <span class="text-blue-400 font-bold"> Android Studio</span> y Swift
+        con
+        <span class="text-blue-400 font-bold"> Xcode</span>, así como
+        aplicaciones multiplataforma con Ionic, así como el uso de Laravel para
+        la creación de APIs. Este máster lo realicé a la par que trabajaba como
+        profesor de Programación en Institutos, donde he perfeccionado mi
+        <span class="text-blue-400 font-bold"> comunicación</span>, <span
+          class="text-blue-400 font-bold"
+        >
+          capacidad de exposición</span
+        >, <span class="text-blue-400 font-bold"> gestión de equipos</span> entre
+        otras soft skills.
+      </p>
+    </section>
+    <section class="my-20 mx-auto">
+      <h2 class="text-center text-4xl text-blue-400 font-bold ≈">Proyectos</h2>
+      <section
+        class="my-20 grid gap-2 xl:grid-cols-3 md:grid-cols-2 container mx-auto"
+      >
+        {
+          projects.map((project) => {
+            const { slug, data } = project;
+            const { name, fecha, img, resume } = data;
+
+            return (
+              <a href={getRelativeLocaleUrl("es", `/projects/${slug}`)}>
+                <article class="prose hover:bg-gray-300 bg-gray-600 rounded-3xl p-20 prose text-gray-900">
+                  <img
+                    transition:name={`img-${slug}`}
+                    src={img}
+                    alt={`foto del proyecto ${name}`}
+                    class="mx-auto rounded-2xl"
+                  />
+                  <h3
+                    transition:name={`name-${slug}`}
+                    class="text-center text-3xl"
+                  >
+                    {name}
+                  </h3>
+                  <h6 class="text-blue-400 text-center text-xl">{fecha}</h6>
+                  <p class="">{resume}</p>
+                </article>
+              </a>
+            );
+          })
+        }
+      </section>
+    </section>
+  </main>
+</Layout>

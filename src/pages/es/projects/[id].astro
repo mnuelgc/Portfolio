@@ -1,0 +1,66 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getCollection, render } from "astro:content";
+
+import Layout from "../../../layouts/Layout.astro";
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+export async function getStaticPaths() {
+  const books = await getCollection("projectsES");
+
+  return books.map((project) => ({
+    params: { id: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { slug, data } = project;
+const { name, fecha, img, resume } = data;
+
+const { Content } = await render(project);
+---
+
+<Layout title=`${name} - Manuel Gómez`>
+  <header
+    class="z-50 flex justify-between items-center justify-item-end top-0 fixed h-20 w-full bg-blue-400"
+  >
+    <a
+      transition:name={"changeLanguage"}
+      class="mr-12 hover:text-gray-700"
+      href={getRelativeLocaleUrl("en", `/projects/${slug}`)}
+    >
+      <span>Change to English</span>
+    </a>
+    <a href={getRelativeLocaleUrl("es", `/`)} class="transition -order-1">
+      <div class="ml-12 text-3xl hover:text-gray-700">
+        <span>← Volver </span>
+      </div>
+    </a>
+  </header>
+  <main class="mt-32">
+    <section>
+      <article class="mx-auto max-w-sm mb-12">
+        <h1
+          transition:name={`name-${slug}`}
+          class="text-white md:text-6xl text-5xl font-bold mb-12 w-max"
+        >
+          {name}
+        </h1>
+        <img
+          transition:name={`img-${slug}`}
+          class="mr-5 max-w-sm md:max-w-md l:max-w-2xl rounded"
+          src={`${img}`}
+          alt={name}
+        />
+      </article>
+
+      <div
+        class="text-2xl lg:mx-auto prose prose-invert mx-10 prose prose-invert"
+      >
+        <Content />
+      </div>
+      <!-- <img src={img} />-->
+    </section>
+  </main>
+</Layout>
