@@ -89,7 +89,35 @@ const projects = await getCollection("projectsEN");
 
             return (
               <a href={getRelativeLocaleUrl("en", `/projects/${slug}`)}>
-                <article class="prose hover:bg-gray-300 bg-gray-600 rounded-3xl p-20 prose text-gray-900">
+                <article class="prose hover:bg-gray-300 bg-gray-600 rounded-3xl p-20 prose text-gray-900 m-auto w-96 md:w-auto">
+                  <img
+                    transition:name={`img-${slug}`}
+                    src={img}
+                    alt={`foto del proyecto ${name}`}
+                    class="mx-auto rounded-2xl"
+                  />
+                  <h3
+                    transition:name={`name-${slug}`}
+                    class="text-center text-3xl"
+                  >
+                    {name}
+                  </h3>
+                  <h6 class="text-blue-400 text-center text-xl">{fecha}</h6>
+                  <p class="">{resume}</p>
+                </article>
+              </a>
+            );
+          })
+        }
+
+        {
+          projects.map((project) => {
+            const { slug, data } = project;
+            const { name, fecha, img, resume } = data;
+
+            return (
+              <a href={getRelativeLocaleUrl("en", `/projects/${slug}`)}>
+                <article class="prose hover:bg-gray-300 bg-gray-600 rounded-3xl p-20 prose text-gray-900 m-auto w-96 md:w-auto">
                   <img
                     transition:name={`img-${slug}`}
                     src={img}

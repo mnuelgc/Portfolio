@@ -100,7 +100,7 @@ const projects = await getCollection("projectsES");
 
             return (
               <a href={getRelativeLocaleUrl("es", `/projects/${slug}`)}>
-                <article class="prose hover:bg-gray-300 bg-gray-600 rounded-3xl p-20 prose text-gray-900">
+                <article class="prose hover:bg-gray-300 bg-gray-600 rounded-3xl p-20 prose text-gray-900 m-auto w-96 md:w-auto">
                   <img
                     transition:name={`img-${slug}`}
                     src={img}
