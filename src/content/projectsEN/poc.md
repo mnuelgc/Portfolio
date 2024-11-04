@@ -1,6 +1,6 @@
 ---
 name: The Path Of Code
-fecha: May 2024 - WORK IN PROGRESS
+fecha: May 2024
 img: /POC/pocode.png
 resume: Augmented Reality Game to Introduce Primary and Secondary Students to Programming
 stack: "{Unity}{C#}"

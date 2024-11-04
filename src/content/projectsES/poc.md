@@ -1,6 +1,6 @@
 ---
 name: The Path Of Code
-fecha: Mayo 2024 - EN DESARROLLO
+fecha: Mayo 2024
 img: /POC/pocode.png
 resume: Juego en realidad aumentada para introducir a los niños de Primaria y ESO a la programación
 stack: "{Unity}{C#}"
