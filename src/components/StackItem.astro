@@ -1,0 +1,23 @@
+---
+interface Props {
+  stack_name: string;
+  stack_photo: string;
+  stack_name_display: boolean;
+}
+
+const { stack_name, stack_photo, stack_name_display } = Astro.props;
+---
+
+<div class="md:flex flex-col w-auto lg:items-center justify-center text-center">
+  <img
+    src=`${stack_photo}`
+    alt=`${stack_name} logo`
+    class="lg:mx-12 mx-auto w-20"
+  />
+
+  {
+    stack_name_display && (
+      <h5 class="block text-xl text-white my-4 ">{stack_name}</h5>
+    )
+  }
+</div>

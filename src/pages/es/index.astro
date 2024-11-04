@@ -5,6 +5,7 @@ import Card from "../../components/Card.astro";
 import { getCollection } from "astro:content";
 
 import { getRelativeLocaleUrl } from "astro:i18n";
+import StackItem from "../../components/StackItem.astro";
 //defaultLocale es "es""
 
 const projects = await getCollection("projectsES");
@@ -92,6 +93,46 @@ const projects = await getCollection("projectsES");
         otras soft skills.
       </p>
     </section>
+
+    <section class="mt-20 mx-auto">
+      <h2 class="text-center text-4xl text-blue-400 font-bold ≈">Stack</h2>
+
+      <div
+        class="w-4/5 mt-10 m-auto flex flex-wrap gap-8 space-around lg:items-center justify-center text-center"
+      >
+        <StackItem
+          stack_photo="/logos/swifticon.webp"
+          stack_name="Swift"
+          stack_name_display={true}
+        />
+        <StackItem
+          stack_photo="/logos/kotlinicon.webp"
+          stack_name="Kotlin"
+          stack_name_display={true}
+        />
+        <StackItem
+          stack_photo="/logos/iosicon.webp"
+          stack_name="iOS"
+          stack_name_display={true}
+        />
+        <StackItem
+          stack_photo="/logos/androidicon.png"
+          stack_name="Android"
+          stack_name_display={true}
+        />
+        <StackItem
+          stack_photo="/logos/unityicon.webp"
+          stack_name="Unity"
+          stack_name_display={true}
+        />
+        <StackItem
+          stack_photo="/logos/csharpicon.webp"
+          stack_name="C#"
+          stack_name_display={true}
+        />
+      </div>
+    </section>
+
     <section class="my-20 mx-auto">
       <h2 class="text-center text-4xl text-blue-400 font-bold ≈">Proyectos</h2>
       <section
@@ -119,6 +160,23 @@ const projects = await getCollection("projectsES");
                   </h3>
                   <h6 class="text-blue-400 text-center text-xl">{fecha}</h6>
                   <p class="">{resume}</p>
+
+                  <div class="w-1/2 m-aut gap-4 flex flex-wrap m-auto space-around  text-center">
+                    <div class="w-10 h-20">
+                      <StackItem
+                        stack_photo="/logos/unityicon.webp"
+                        stack_name="Unity"
+                        stack_name_display={false}
+                      />
+                    </div>
+                    <div class="w-10 h-20">
+                      <StackItem
+                        stack_photo="/logos/csharpicon.webp"
+                        stack_name="C#"
+                        stack_name_display={false}
+                      />
+                    </div>
+                  </div>
                 </article>
               </a>
             );
