@@ -12,7 +12,7 @@ export const items: Item[] = [
       "Develop Android applications using Jetpack Compose and Kotlin, and maintain legacy applications with Java/Kotlin and XML",
   },
   {
-    tag: "TEACHING",
+    tag: "TEACHER",
     title: "IES La Nucia",
     subtitle: "Computer Science Teacher",
     date: "Sep 2023 — Sep 2024",
@@ -30,7 +30,7 @@ export const items: Item[] = [
       "Master’s program focused on developing mobile applications for Android and iOS",
   },
   {
-    tag: "TEACHING",
+    tag: "TEACHER",
     title: "IES Pere Maria Orts i Bosch",
     subtitle: "Computer Science Teacher",
     date: "Oct 2022 — Sep 2023",
