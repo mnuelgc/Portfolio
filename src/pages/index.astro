@@ -5,11 +5,15 @@ import Card from "../components/Card.astro";
 import { getCollection } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import StackItem from "../components/StackItem.astro";
+import Timeline from "../components/Timeline.astro";
+
+import type { Item } from "../types/items";
+import { items } from "../content/timelineEN/timeline";
 
 const projects = await getCollection("projectsEN");
 ---
 
-<Layout title="Manuel Gómez Cámara - WIP">
+<Layout title="Manuel Gómez Cámara">
   <header
     class="z-50 flex justify-end items-center justify-item-end top-0 fixed h-20 w-full bg-blue-400"
   >
@@ -104,31 +108,36 @@ const projects = await getCollection("projectsEN");
     </section>
     <section class="text-2xl lg:mx-auto prose prose-invert mx-10">
       <p>
-        Mobile software engineer with over 4 years of experience in designing
-        and developing cross-platform and native applications, specializing in
-        technologies like <span class="text-blue-400 font-bold">Unity</span>,
-        <span class="text-blue-400 font-bold">Kotlin</span>, and
-        <span class="text-blue-400 font-bold">Swift</span>. I have worked in
-        teams on
-        <span class="text-blue-400 font-bold">Augmented Reality</span> and
-        <span class="text-blue-400 font-bold">Virtual Reality</span> projects, from
-        conceptualization to implementation and launch.
+        Mobile software engineer with more than 4 years of experience in the
+        design and development of cross-platform and native applications,
+        specialized in technologies such as <span
+          class="text-blue-400 font-bold"
+        >
+          Unity</span
+        >, <span class="text-blue-400 font-bold"> Kotlin</span> and <span
+          class="text-blue-400 font-bold"
+        >
+          Swift</span
+        >. I have worked in teams on <span class="text-blue-400 font-bold">
+          Augmented Reality</span
+        > and <span class="text-blue-400 font-bold"> Virtual Reality</span> projects,
+        from conceptualization to implementation and release.
       </p>
       <p>
-        To deepen my knowledge in the <span class="text-blue-400 font-bold"
-          >mobile development</span
-        > field, I recently completed a master's degree in mobile development at
-        the University of Alicante, where I specialized in native mobile development
-        for Android and iOS using
-        <span class="text-blue-400 font-bold">Android Studio</span> with Kotlin and
-        <span class="text-blue-400 font-bold">Xcode</span> with Swift, as well as
-        cross-platform applications with Ionic, and the use of Laravel for API creation.
-        I pursued this master's degree while working as a Programming teacher in
-        high schools, where I have refined my
-        <span class="text-blue-400 font-bold">communication</span>,
-        <span class="text-blue-400 font-bold">presentation skills</span>, and
-        <span class="text-blue-400 font-bold">team management</span> among other
-        soft skills.
+        I am currently working as an <span class="text-blue-400 font-bold">
+          Android Developer</span
+        >
+        on a global impact project, developing an application in
+        <span class="text-blue-400 font-bold"> Kotlin</span> and <span
+          class="text-blue-400 font-bold"
+        >
+          JetPack Compose
+        </span> using <span class="text-blue-400 font-bold">
+          Android Studio
+        </span> for an internationally recognized company, while maintaining a legacy
+        application written in <span class="text-blue-400 font-bold">Java</span>
+        and <span class="text-blue-400 font-bold">XML</span>, with the goal of
+        fully replacing it with the new application currently under development.
       </p>
     </section>
 
@@ -139,8 +148,8 @@ const projects = await getCollection("projectsEN");
         class="w-4/5 mt-10 m-auto flex flex-wrap gap-8 space-around lg:items-center justify-center text-center"
       >
         <StackItem
-          stack_photo="/logos/swifticon.webp"
-          stack_name="Swift"
+          stack_photo="/logos/unityicon.webp"
+          stack_name="Unity"
           stack_name_display={true}
         />
         <StackItem
@@ -149,20 +158,21 @@ const projects = await getCollection("projectsEN");
           stack_name_display={true}
         />
         <StackItem
-          stack_photo="/logos/iosicon.webp"
-          stack_name="iOS"
-          stack_name_display={true}
-        />
-        <StackItem
           stack_photo="/logos/androidicon.png"
           stack_name="Android"
           stack_name_display={true}
         />
         <StackItem
-          stack_photo="/logos/unityicon.webp"
-          stack_name="Unity"
+          stack_photo="/logos/swifticon.webp"
+          stack_name="Swift"
           stack_name_display={true}
         />
+        <StackItem
+          stack_photo="/logos/iosicon.webp"
+          stack_name="iOS"
+          stack_name_display={true}
+        />
+
         <StackItem
           stack_photo="/logos/csharpicon.webp"
           stack_name="C#"
@@ -175,19 +185,6 @@ const projects = await getCollection("projectsEN");
         />
       </div>
     </section>
-
-    <section class="mt-20 mx-auto">
-      <h2 class="mb-10 text-center text-4xl text-blue-400 font-bold ≈">
-        Timeline
-      </h2>
-      <iframe
-        src="https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1Pr1DXm2yrz1KmLam6JJ79xqfEvt74As7RrKRPxoJE7Y&font=Default&lang=en&initial_zoom=2&height=650"
-        width="100%"
-        height="650"
-        allowfullscreen
-        frameborder="0"></iframe>
-    </section>
-
     <section class="my-20 mx-auto">
       <h2 class="text-center text-4xl text-blue-400 font-bold ≈">Projects</h2>
       <section
@@ -244,6 +241,13 @@ const projects = await getCollection("projectsEN");
             );
           })
         }
+      </section>
+
+      <section class="mt-20 mx-auto">
+        <h2 class="mb-10 text-center text-4xl text-blue-400 font-bold ≈">
+          Timeline
+        </h2>
+        <Timeline items={items} />
       </section>
     </section>
   </main>

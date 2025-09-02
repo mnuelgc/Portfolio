@@ -6,12 +6,15 @@ import { getCollection } from "astro:content";
 
 import { getRelativeLocaleUrl } from "astro:i18n";
 import StackItem from "../../components/StackItem.astro";
-//defaultLocale es "es""
+import Timeline from "../../components/Timeline.astro";
+
+import type { Item } from "../../types/items";
+import { items } from "../../content/timelineEN/timeline";
 
 const projects = await getCollection("projectsES");
 ---
 
-<Layout title="Manuel Gómez Cámara - WIP">
+<Layout title="Manuel Gómez Cámara">
   <header
     class="z-50 flex justify-end items-center justify-item-end top-0 fixed h-20 w-full bg-blue-400"
   >
@@ -122,25 +125,22 @@ const projects = await getCollection("projectsES");
         conceptualización hasta la implementación y lanzamiento.
       </p>
       <p>
-        Para profundizar mis conocimientos en el campo del <span
+        Actualmente estoy trabajando como <span class="text-blue-400 font-bold">
+          Desarrollador Android</span
+        >
+        en un proyecto de impacto global en el cual se está desarrollando una aplicación
+        en
+        <span class="text-blue-400 font-bold"> Kotlin</span> y <span
           class="text-blue-400 font-bold"
         >
-          desarrollo móvil</span
-        >
-        recientemente cursé el máster de desarrollo móvil de la Universidad de Alicante,
-        donde profundicé en el desarrollo móvil nativo para Android e iOS con Kotlin
-        usando <span class="text-blue-400 font-bold"> Android Studio</span> y Swift
-        con
-        <span class="text-blue-400 font-bold"> Xcode</span>, así como
-        aplicaciones multiplataforma con Ionic, así como el uso de Laravel para
-        la creación de APIs. Este máster lo realicé a la par que trabajaba como
-        profesor de Programación en Institutos, donde he perfeccionado mi
-        <span class="text-blue-400 font-bold"> comunicación</span>, <span
-          class="text-blue-400 font-bold"
-        >
-          capacidad de exposición</span
-        >, <span class="text-blue-400 font-bold"> gestión de equipos</span> entre
-        otras soft skills.
+          JetPack Compose
+        </span> usando <span class="text-blue-400 font-bold">
+          Android Studio
+        </span> para una empresa de relevancia internacional, mientras se mantiene
+        el código de una aplicación en <span class="text-blue-400 font-bold"
+          >Java</span
+        > y <span class="text-blue-400 font-bold">XML</span> , con el objetivo de
+        sustituirla por la que está en actual desarrollo.
       </p>
     </section>
 
@@ -151,8 +151,8 @@ const projects = await getCollection("projectsES");
         class="w-4/5 mt-10 m-auto flex flex-wrap gap-8 space-around lg:items-center justify-center text-center"
       >
         <StackItem
-          stack_photo="/logos/swifticon.webp"
-          stack_name="Swift"
+          stack_photo="/logos/unityicon.webp"
+          stack_name="Unity"
           stack_name_display={true}
         />
         <StackItem
@@ -161,20 +161,21 @@ const projects = await getCollection("projectsES");
           stack_name_display={true}
         />
         <StackItem
-          stack_photo="/logos/iosicon.webp"
-          stack_name="iOS"
-          stack_name_display={true}
-        />
-        <StackItem
           stack_photo="/logos/androidicon.png"
           stack_name="Android"
           stack_name_display={true}
         />
         <StackItem
-          stack_photo="/logos/unityicon.webp"
-          stack_name="Unity"
+          stack_photo="/logos/swifticon.webp"
+          stack_name="Swift"
           stack_name_display={true}
         />
+        <StackItem
+          stack_photo="/logos/iosicon.webp"
+          stack_name="iOS"
+          stack_name_display={true}
+        />
+
         <StackItem
           stack_photo="/logos/csharpicon.webp"
           stack_name="C#"
@@ -186,17 +187,6 @@ const projects = await getCollection("projectsES");
           stack_name_display={true}
         />
       </div>
-    </section>
-    <section class="mt-20 mx-auto">
-      <h2 class="mb-10 text-center text-4xl text-blue-400 font-bold ≈">
-        Historia
-      </h2>
-      <iframe
-        src="https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1iDzd61Pg-aO2VTttideBDb1_98r7fnC6SyB45ZwLdkM&font=Default&lang=es&initial_zoom=2&height=650"
-        width="100%"
-        height="650"
-        allowfullscreen
-        frameborder="0"></iframe>
     </section>
     <section class="my-20 mx-auto">
       <h2 class="text-center text-4xl text-blue-400 font-bold ≈">Proyectos</h2>
@@ -255,6 +245,12 @@ const projects = await getCollection("projectsES");
           })
         }
       </section>
+    </section>
+    <section class="mt-20 mx-auto">
+      <h2 class="mb-10 text-center text-4xl text-blue-400 font-bold ≈">
+        Historia
+      </h2>
+      <Timeline items={items} />
     </section>
   </main>
 </Layout>
