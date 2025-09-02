@@ -236,7 +236,7 @@ const { items = [] } = Astro.props as { items: Item[] };
 
   @media screen and (max-width: 768px) {
     .timeline::before {
-      left: 20px; /* línea pegada a la izquierda */
+      left: 20px;
       transform: none;
     }
 
@@ -251,11 +251,11 @@ const { items = [] } = Astro.props as { items: Item[] };
       left: 0;
       width: 100%;
       left: 0;
-      padding: 18px 14px 18px 60px; /* todas alineadas igual */
+      padding: 18px 14px 18px 60px;
     }
 
     .row::before {
-      left: 20px; /* el nodo se queda en la línea */
+      left: 20px;
       right: auto;
     }
 
