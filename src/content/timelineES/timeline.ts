@@ -16,6 +16,7 @@ export const items: Item[] = [
         subtitle: "Profesor de Informática",
         date: "sept 2023 — sept 2024",
         logo: "./logos/gvicon.png",
+        description: "Profesor de Programación y Robótica de ESO y Bachiller",
         },
         {
         tag: "TITULACIÓN",
@@ -25,6 +26,7 @@ export const items: Item[] = [
             "Máster Universitario en Desarrollo de Software para dispositivos móviles",
         date: "sept 2023 — jul 2024",
         logo: "./logos/uaicon.png",
+        description: "Master de desarrollo de aplicaciones para dispositivos moviles Android e IOS",
         },
         {
         tag: "DOCENCIA",
@@ -32,6 +34,7 @@ export const items: Item[] = [
         subtitle: "Profesor de Informática",
         date: "oct 2022 — sept 2023",
         logo: "./logos/gvicon.png",
+        description: "Profesor de Programación de ESO, Bachiller y Grado Medio",
         },
         {
         tag: "DESARROLLO",
@@ -40,16 +43,16 @@ export const items: Item[] = [
         subtitle: "Desarrollador Unity 3D VR",
         date: "abr 2022 — oct 2022",
         logo: "./logos/crisalixicon.jpg",
-        description:
-            "Desarrollar aplicacion de Android con Jetpack Compose y Kotlin y mantenimiento de aplicación Legacy con Java/Kotlin y XML ",
+        description:"Desarrollar apliaciones 3D y VR en Unity orientadas a dar una vista previa de operaciones estéticas a los pacientes",
         },
         {
         tag: "TITULACIÓN",
         tagColor: "blue",
         title: "Universidad de Alicante",
         subtitle: "Máster Profesorado Secundaria y Formación Profesional",
-        date: "sept 2022 — jul 2023",
+        date: "sept 2021 — jul 2022",
         logo: "./logos/uaicon.png",
+        description:"Master que capacita a dar clases como docente en institutos",
         },
         {
         tag: "DESARROLLO",
@@ -58,8 +61,7 @@ export const items: Item[] = [
         subtitle: "Desarrollador Unity 3D AR/VR",
         date: "ene 2018 — jul 2021",
         logo: "./logos/cypeIcon.png",
-        description:
-            "Desarrollar aplicacion de Android con Jetpack Compose y Kotlin y mantenimiento de aplicación Legacy con Java/Kotlin y XML ",
+        description:"Desarrollo de aplicaciones 3D, AR y VR en Unity que utilizan el Modelo BIM para mostrar modelos de las obras y servir como herramienta a constructores",
         },
         {
         tag: "TITULACIÓN",
@@ -68,5 +70,6 @@ export const items: Item[] = [
         subtitle: "Ingieneria Multimedia",
         date: "sept 2013 — dec 2017",
         logo: "./logos/uaicon.png",
+        description:"Grado Universitario en Ingenieria Multimedia",
         }
 ]
