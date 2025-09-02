@@ -7,77 +7,10 @@ import { getRelativeLocaleUrl } from "astro:i18n";
 import StackItem from "../components/StackItem.astro";
 import Timeline from "../components/Timeline.astro";
 
-const projects = await getCollection("projectsEN");
+import type { Item } from "../types/items";
+import { items } from "../content/timeline/timeline";
 
-// Example data to render the timeline
-const items = [
-  {
-    tag: "PUESTO DE TRABAJO",
-    title: "NTTData",
-    subtitle: "Desarrollador de aplicaciones Android",
-    date: "ene 2025 — Actualidad",
-    logo: "/logos/nttdata.svg",
-    description:
-      "Desarrollar aplicacion de Android con Jetpack Compose y Kotlin y mantenimiento de aplicación Legacy con Java/Kotlin y XML ",
-  },
-  {
-    tag: "PUESTO DE TRABAJO",
-    title: "IES La Nucia",
-    subtitle: "Profesor de Informática",
-    date: "sept 2023 — sept 2024",
-    logo: "/logos/ies-la-nucia.svg",
-  },
-  {
-    tag: "TITULACIÓN",
-    tagColor: "blue",
-    title: "Universidad de Alicante",
-    subtitle:
-      "Máster Universitario en Desarrollo de Software para dispositivos móviles",
-    date: "sept 2023 — jul 2024",
-    logo: "/logos/ua.svg",
-  },
-  {
-    tag: "PUESTO DE TRABAJO",
-    title: "IES Pere Maria Bosh i Orts",
-    subtitle: "Profesor de Informática",
-    date: "oct 2022 — sept 2023",
-    logo: "/logos/ies-la-nucia.svg",
-  },
-  {
-    tag: "PUESTO DE TRABAJO",
-    title: "Crisalix",
-    subtitle: "Desarrollador Unity 3D VR",
-    date: "abr 2022 — oct 2022",
-    logo: "/logos/nttdata.svg",
-    description:
-      "Desarrollar aplicacion de Android con Jetpack Compose y Kotlin y mantenimiento de aplicación Legacy con Java/Kotlin y XML ",
-  },
-  {
-    tag: "TITULACIÓN",
-    tagColor: "blue",
-    title: "Universidad de Alicante",
-    subtitle: "Máster Profesorado Secundaria y Formación Profesional",
-    date: "sept 2022 — jul 2023",
-    logo: "/logos/ua.svg",
-  },
-  {
-    tag: "PUESTO DE TRABAJO",
-    title: "CypeSoft",
-    subtitle: "Desarrollador Unity 3D AR/VR",
-    date: "ene 2018 — jul 2021",
-    logo: "/logos/nttdata.svg",
-    description:
-      "Desarrollar aplicacion de Android con Jetpack Compose y Kotlin y mantenimiento de aplicación Legacy con Java/Kotlin y XML ",
-  },
-  {
-    tag: "TITULACIÓN",
-    tagColor: "blue",
-    title: "Universidad de Alicante",
-    subtitle: "Ingieneria Multimedia",
-    date: "sept 2013 — dec 2017",
-    logo: "/logos/ua.svg",
-  },
-];
+const projects = await getCollection("projectsEN");
 ---
 
 <Layout title="Manuel Gómez Cámara - WIP">
@@ -246,20 +179,6 @@ const items = [
         />
       </div>
     </section>
-
-    <section class="mt-20 mx-auto">
-      <h2 class="mb-10 text-center text-4xl text-blue-400 font-bold ≈">
-        Timeline
-      </h2>
-      <Timeline items={items} />
-      <iframe
-        src="https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1Pr1DXm2yrz1KmLam6JJ79xqfEvt74As7RrKRPxoJE7Y&font=Default&lang=en&initial_zoom=2&height=650"
-        width="100%"
-        height="650"
-        allowfullscreen
-        frameborder="0"></iframe>
-    </section>
-
     <section class="my-20 mx-auto">
       <h2 class="text-center text-4xl text-blue-400 font-bold ≈">Projects</h2>
       <section
@@ -316,6 +235,13 @@ const items = [
             );
           })
         }
+      </section>
+
+      <section class="mt-20 mx-auto">
+        <h2 class="mb-10 text-center text-4xl text-blue-400 font-bold ≈">
+          Timeline
+        </h2>
+        <Timeline items={items} />
       </section>
     </section>
   </main>

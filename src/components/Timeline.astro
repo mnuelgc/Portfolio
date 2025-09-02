@@ -1,15 +1,6 @@
 ---
-type Item = {
-  tag: string;
-  tagColor?: "orange" | "blue" | "gray";
-  title: string;
-  subtitle?: string;
-  date: string;
-  linkText?: string;
-  linkHref?: string;
-  logo?: string;
-  description?: string;
-};
+import type { Item } from "../types/items";
+import StackItem from "../components/StackItem.astro";
 
 const { items = [] } = Astro.props as { items: Item[] };
 ---
@@ -22,7 +13,7 @@ const { items = [] } = Astro.props as { items: Item[] };
 
         <details class="card">
           <summary>
-            <span class={`tag ${item.tagColor ?? "gray"}`}>{item.tag}</span>
+            <span class={`tag ${item.tagColor ?? "red"}`}>{item.tag}</span>
 
             <div class="head">
               {item.logo && (
@@ -147,7 +138,6 @@ const { items = [] } = Astro.props as { items: Item[] };
     grid-template-columns: 1fr auto;
     align-items: center;
     gap: 12px;
-    padding: 16px 18px;
   }
 
   .card > summary::-webkit-details-marker {
@@ -168,11 +158,11 @@ const { items = [] } = Astro.props as { items: Item[] };
     margin-bottom: 10px;
   }
 
-  .tag.gray {
-    background: #6b7280;
+  .tag.red {
+    background: #820e0e;
   }
-  .tag.orange {
-    background: #f59e0b;
+  .tag.green {
+    background: #056a27;
   }
   .tag.blue {
     background: #2563eb;
@@ -241,6 +231,38 @@ const { items = [] } = Astro.props as { items: Item[] };
     }
     .node {
       left: 18px;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .timeline::before {
+      left: 20px; /* línea pegada a la izquierda */
+      transform: none;
+    }
+
+    .row {
+      width: 100%;
+      left: 0;
+      padding: 18px 14px 18px 60px;
+    }
+
+    .row.left,
+    .row.right {
+      left: 0;
+      width: 100%;
+      left: 0;
+      padding: 18px 14px 18px 60px; /* todas alineadas igual */
+    }
+
+    .row::before {
+      left: 20px; /* el nodo se queda en la línea */
+      right: auto;
+    }
+
+    .row.left .node,
+    .row.right .node {
+      left: 20px;
+      transform: translateX(-50%);
     }
   }
 </style>
