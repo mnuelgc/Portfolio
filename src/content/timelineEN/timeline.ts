@@ -64,6 +64,7 @@ export const items: Item[] = [
     tagColor: "green",
     subtitle: "Unity 3D AR/VR Developer",
     date: "Jan 2018 — Jul 2021",
+
     logo: "../logos/cypeIcon.png",
     description:
       "Developed 3D, AR, and VR applications in Unity that use BIM models to visualize construction projects and assist builders",
