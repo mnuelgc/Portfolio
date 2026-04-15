@@ -1,0 +1,215 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import TimelineDual from "../timeline/TimelineDual.astro";
+import { getCollection } from "astro:content";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { getStrings, type Locale } from "../../i18n/ui";
+import { getTimeline } from "../../data/timeline";
+
+interface Props {
+	locale: Locale;
+	pathname: string;
+}
+
+const { locale, pathname } = Astro.props;
+const strings = getStrings(locale);
+const alternateLocale = locale === "en" ? "es" : "en";
+const normalizedPath = locale === "en" ? pathname : pathname.replace(/^\/es/, "") || "/";
+const localeHref = getRelativeLocaleUrl(alternateLocale, normalizedPath);
+const projects = await getCollection("projects", ({ data }) => data.locale === locale);
+const timelineItems = getTimeline(locale);
+const cvFile = locale === "en" ? "/CV/CV-ENGL.pdf" : "/CV/CV-ESP.pdf";
+
+const stackNames = ["Unity", "Kotlin", "Android", "Swift", "iOS", "C#", "Git"];
+const mobileStack = ["Unity", "Android", "iOS"];
+
+const aboutCopy: Record<Locale, string[]> = {
+	en: [
+		"I specialize in native and cross-platform mobile development, with production experience across Unity, Kotlin, Swift, Java, and Jetpack Compose.",
+		"Beyond engineering, I spent more than two years teaching programming and robotics, strengthening leadership, communication, and conflict-resolution skills.",
+	],
+	es: [
+		"Estoy especializado en desarrollo móvil nativo y multiplataforma, con experiencia en producción en Unity, Kotlin, Swift, Java y Jetpack Compose.",
+		"Además de la ingeniería, trabajé más de dos años como docente de programación y robótica, reforzando liderazgo, comunicación y resolución de conflictos.",
+	],
+};
+
+const about = aboutCopy[locale];
+const timelineLegend =
+	locale === "es"
+		? [
+				{ color: "green", label: "Desarrollo" },
+				{ color: "blue", label: "Formacion" },
+				{ color: "red", label: "Docencia" },
+			]
+		: [
+				{ color: "green", label: "Development" },
+				{ color: "blue", label: "Education" },
+				{ color: "red", label: "Teaching" },
+			];
+const safeMail = `mailto:${strings.hero.email}?subject=${encodeURIComponent("Project inquiry from portfolio")}&body=${encodeURIComponent("Hola Manuel, me gustaría hablar sobre...")}`;
+const socialLinks = [
+	{
+		label: strings.hero.linkedin,
+		value: "LinkedIn",
+		href: "https://www.linkedin.com/in/manuel-gomez-camara-81145b111",
+	},
+	{
+		label: strings.hero.emailLabel,
+		value: strings.hero.email,
+		href: safeMail,
+	},
+];
+---
+
+<Layout title={strings.seo.title} description={strings.seo.description}>
+	<header class="site-header">
+		<div class="site-header__bar">
+			<div class="page-shell site-header__inner">
+				<a href={normalizedPath} class="flex items-center gap-3 text-white" aria-label="Manuel Gómez Cámara">
+					<span class="sr-only">{strings.hero.title}</span>
+				</a>
+				<nav class="hidden md:flex gap-6 text-sm text-white/80">
+					<a href="#about" class="hover:text-white">{strings.nav.summary}</a>
+					<a href="#timeline" class="hover:text-white">{strings.nav.timeline}</a>
+					<a href="#projects" class="hover:text-white">{strings.nav.projects}</a>
+				</nav>
+				<div class="flex items-center gap-3">
+					<a href={safeMail} class="btn btn-outline hidden sm:inline-flex">{strings.hero.secondaryCta}</a>
+					<a href={localeHref} class="btn btn-outline text-[0.65rem]" transition:name="locale-toggle">
+						{strings.nav.localeToggle}
+					</a>
+				</div>
+			</div>
+		</div>
+	</header>
+	<main class="pt-32 pb-28 space-y-28">
+		<section class="page-shell grid lg:grid-cols-[1.1fr_0.9fr] gap-12 items-center" id="hero">
+			<div class="space-y-8">
+				<h1 class="section-heading">
+					{strings.hero.title}
+					<span class="block text-transparent bg-clip-text bg-gradient-to-r from-brand-red via-brand-blue to-brand-amber text-3xl mt-3">
+						{strings.hero.role}
+					</span>
+				</h1>
+				<div class="space-y-4 text-lg text-brand-cloud/90 max-w-2xl">
+					{strings.hero.summary.map((line) => (
+						<p>{line}</p>
+					))}
+				</div>
+				<div class="flex flex-wrap gap-4">
+					<a class="btn btn-lined" href={cvFile} download="Manuel_Gomez_Camara_CV.pdf">{strings.hero.primaryCta}</a>
+					<a class="btn btn-outline" href={socialLinks[1].href}>{strings.hero.secondaryCta}</a>
+				</div>
+			</div>
+			<div class="relative flex justify-center">
+				<div class="hero-portrait">
+					<div class="hero-grid">
+						<img src="/circularphoto.png" alt="Manuel Gómez Cámara portrait" class="hero-portrait__image object-cover" />
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<div class="stack-bars-outer">
+			<div class="page-shell">
+				<div class="stack-bars">
+					<div class="marquee stack-bar--marquee">
+						<div class="marquee-track marquee-track--centered marquee-track--desktop">
+							{stackNames.map((name: string) => (
+								<div class="marquee-item">{name}</div>
+							))}
+						</div>
+						<div class="marquee-track marquee-track--centered marquee-track--mobile">
+							{mobileStack.map((name: string) => (
+								<div class="marquee-item">{name}</div>
+							))}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<section id="about" class="page-shell grid lg:grid-cols-3 gap-8 items-start">
+			<div class="lg:col-span-2 glass rounded-3xl p-8 space-y-5">
+				<p class="section-label">{strings.nav.summary}</p>
+				{about.map((paragraph) => (
+					<p class="text-lg text-white/85 leading-relaxed">{paragraph}</p>
+				))}
+				<ul class="grid sm:grid-cols-2 gap-4 text-sm text-white/70">
+					<li class="flex items-center gap-3">
+						<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Kotlin · Compose · Android Studio
+					</li>
+					<li class="flex items-center gap-3">
+						<span class="w-2 h-2 rounded-full bg-brand-blue"></span> Unity · AR/VR pipelines
+					</li>
+					<li class="flex items-center gap-3">
+						<span class="w-2 h-2 rounded-full bg-brand-amber"></span> Swift · iOS delivery
+					</li>
+					<li class="flex items-center gap-3">
+						<span class="w-2 h-2 rounded-full bg-brand-red"></span> Teaching & mentoring teams
+					</li>
+				</ul>
+			</div>
+			<div class="space-y-4">
+				{socialLinks.map((link) => (
+					<a href={link.href} class="contact-card" rel="noopener noreferrer">
+						<div class="contact-card__label">{link.label}</div>
+						<div class="contact-card__value">{link.value}</div>
+					</a>
+				))}
+			</div>
+		</section>
+
+		<section id="timeline" class="page-shell space-y-8">
+			<div class="timeline-header-row">
+				<p class="section-label">{strings.sections.timeline}</p>
+				<ul class="timeline-legend__list" aria-label={locale === "es" ? "Leyenda de colores" : "Color legend"}>
+					{timelineLegend.map((entry) => (
+						<li class="timeline-legend__item">
+							<span class={`timeline-legend__swatch ${entry.color}`}></span>
+							<span>{entry.label}</span>
+						</li>
+					))}
+				</ul>
+			</div>
+			<TimelineDual items={timelineItems} />
+		</section>
+
+		<section id="projects" class="page-shell space-y-8">
+			<p class="section-label">{strings.sections.projects}</p>
+			<div class="grid gap-10 md:grid-cols-2">
+				{projects.map((project) => {
+					const { data } = project;
+					const href = getRelativeLocaleUrl(locale, `/projects/${data.projectId}`);
+					return (
+						<a href={href} class="relative group block">
+							<article class="glass rounded-[2rem] p-6 flex flex-col gap-4 min-h-[360px] overflow-hidden">
+								<img
+									src={data.img}
+									alt={`Project ${data.name}`}
+									class="rounded-2xl border border-white/10 object-cover h-48 w-full"
+									loading="lazy"
+								/>
+								<div class="flex items-center justify-between text-xs text-white/60 tracking-[0.35em]">
+									<span>{data.fecha}</span>
+									<span>{strings.projects.viewCase}</span>
+								</div>
+								<h3 class="text-3xl font-semibold text-white font-display">{data.name}</h3>
+								<p class="text-white/70">{data.resume}</p>
+								<div class="flex flex-wrap gap-2">
+									{data.stack.map((tech: string) => (
+										<span class="px-3 py-1 rounded-full text-[0.65rem] uppercase tracking-[0.3em] bg-white/5 text-white/70">
+											{tech}
+										</span>
+									))}
+								</div>
+							</article>
+						</a>
+					);
+				})}
+			</div>
+		</section>
+
+	</main>
+</Layout>
