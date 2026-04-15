@@ -3,7 +3,7 @@ locale: en
 projectId: poc
 name: The Path Of Code
 fecha: May 2024
-img: /POC/pocode.png
+img: /POC/pocode.jpg
 resume: Augmented Reality Game to introduce Primary and Secondary students to programming
 stack:
   - Unity
@@ -25,7 +25,7 @@ This game is developed using **Unity** to ensure cross-platform compatibility, m
 
 **Game Start**: The main menu offers options to start in AR mode, non-AR mode, or exit the game.
 
-![Main menu of the game, showing the initial screen with several characters styled as medieval adventurers. There are three buttons on the lower left: AR, Non-AR and Exit](/POC/pocode.png "Main Menu")
+![Main menu of the game, showing the initial screen with several characters styled as medieval adventurers. There are three buttons on the lower left: AR, Non-AR and Exit](/POC/pocode.jpg "Main Menu")
 
 **Board Placement**: In AR mode, players use their device’s camera to find a flat surface where they can place the game board.
 

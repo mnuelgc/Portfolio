@@ -3,7 +3,7 @@ locale: es
 projectId: poc
 name: The Path Of Code
 fecha: Mayo 2024
-img: /POC/pocode.png
+img: /POC/pocode.jpg
 resume: Juego en realidad aumentada para introducir a los estudiantes de Primaria y ESO a la programación
 stack:
   - Unity
@@ -25,7 +25,7 @@ Este juego se desarrolla utilizando **Unity** para asegurar la compatibilidad mu
 
 **Inicio del Juego:** El menú principal ofrece opciones para iniciar en modo AR, modo sin AR o salir del juego.
 
-![Menú Principal del juego, se ve la pantalla inicial de un juego donde aparecen varios personajes de estilo aventureros medievales, se ven 3 botones abajo a la izquierda en orden AR, No AR y Salir](/POC/pocode.png "Menu inicial")
+![Menú Principal del juego, se ve la pantalla inicial de un juego donde aparecen varios personajes de estilo aventureros medievales, se ven 3 botones abajo a la izquierda en orden AR, No AR y Salir](/POC/pocode.jpg "Menu inicial")
 
 **Colocación del Tablero:** En modo AR, los jugadores usan la cámara de su dispositivo para encontrar una superficie plana donde pueden colocar el tablero de juego.
 
