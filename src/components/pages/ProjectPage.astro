@@ -1,0 +1,67 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { getStrings, type Locale } from "../../i18n/ui";
+
+interface Props {
+	locale: Locale;
+	id: string;
+}
+
+const { locale, id } = Astro.props;
+const entries = await getCollection("projects", ({ data }) => data.projectId === id);
+const project =
+	entries.find((entry) => entry.data.locale === locale) ??
+	entries.find((entry) => entry.data.locale === "en");
+
+if (!project) {
+	throw new Error(`Project not found for id ${id}`);
+}
+
+const { Content } = await project.render();
+const data = project.data;
+const strings = getStrings(locale);
+const backHref = getRelativeLocaleUrl(locale, "/");
+const alternateLocale = locale === "en" ? "es" : "en";
+const localeHref = getRelativeLocaleUrl(alternateLocale, `/projects/${data.projectId}`);
+---
+
+<Layout title={`${data.name} — ${strings.hero.title}`} description={data.resume}>
+	<header class="site-header">
+		<div class="site-header__bar">
+			<div class="page-shell site-header__inner">
+				<a href={backHref} class="text-white hover:text-brand-blue text-sm uppercase tracking-[0.3em]">
+					← {strings.nav.projects}
+				</a>
+				<nav class="hidden md:flex gap-6 text-sm text-white/80" aria-hidden="true"></nav>
+				<div class="flex items-center gap-3">
+					<a href={localeHref} class="btn btn-outline text-[0.65rem]">{strings.nav.localeToggle}</a>
+				</div>
+			</div>
+		</div>
+	</header>
+	<main class="pt-32 pb-20">
+		<article class="page-shell space-y-10">
+			<header class="space-y-6">
+				<p class="section-label">{strings.sections.projects}</p>
+				<h1 class="text-4xl md:text-5xl font-display text-white">{data.name}</h1>
+				<div class="flex flex-wrap gap-3 text-sm text-white/70">
+					<span class="px-4 py-2 rounded-full border border-white/10">{data.fecha}</span>
+					{data.stack.map((tech: string) => (
+						<span class="px-4 py-2 rounded-full bg-white/10 text-white/80 uppercase tracking-[0.2em] text-xs">
+							{tech}
+						</span>
+					))}
+				</div>
+			</header>
+			<div class="glass rounded-[2.5rem] overflow-hidden border border-white/10">
+				<img src={data.img} alt={`Cover for ${data.name}`} class="w-full object-cover max-h-[520px]" />
+			</div>
+			<div class="glass rounded-3xl p-8 prose prose-invert max-w-none">
+				<p class="text-xl text-white/80">{data.resume}</p>
+				<Content />
+			</div>
+		</article>
+	</main>
+</Layout>

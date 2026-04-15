@@ -5,6 +5,8 @@ export type Item = {
   title: string;
   subtitle?: string;
   date: string;
+  startDate?: Date;
+  endDate?: Date;
   linkText?: string;
   linkHref?: string;
   logo?: string;
