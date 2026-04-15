@@ -1,0 +1,330 @@
+---
+import type { Item } from "../../types/items";
+import type { Locale } from "../../i18n/ui";
+
+type TimelineItem = Item & { startDate?: Date; endDate?: Date };
+
+const locale = (Astro.currentLocale ?? "en") as Locale;
+const presentLabel = locale === "es" ? "actual" : "present";
+
+const { items = [] } = Astro.props as { items: TimelineItem[] };
+
+const events = [...items]
+	.map((item) => ({
+		item,
+		start: item.startDate ?? new Date(),
+		end: item.endDate ?? item.startDate ?? new Date(),
+	}))
+	.sort((a, b) => {
+		const diff = b.start.getTime() - a.start.getTime();
+		return diff !== 0 ? diff : b.end.getTime() - a.end.getTime();
+	});
+
+const formatStamp = (item?: TimelineItem) => {
+	if (!item?.startDate) return item?.date ?? "";
+	if (!item.endDate) return presentLabel;
+	const startYear = item.startDate.getFullYear();
+	const endYear = item.endDate.getFullYear();
+	return startYear === endYear ? `${startYear}` : `${startYear}-${endYear}`;
+};
+
+type Row = { left?: TimelineItem; right?: TimelineItem; stamp: string };
+
+const overlaps = (a: { start: Date; end: Date }, b: { start: Date; end: Date }) =>
+	b.start < a.end && b.end > a.start;
+
+const rows: Row[] = [];
+let i = 0;
+let nextSide: "left" | "right" = "left";
+
+while (i < events.length) {
+	const current = events[i];
+	const next = events[i + 1];
+	if (next && overlaps(current, next)) {
+		const [older, newer] =
+			current.start.getTime() <= next.start.getTime()
+				? [current, next]
+				: [next, current];
+		rows.push({ left: older.item, right: newer.item, stamp: formatStamp(newer.item) });
+		i += 2;
+		continue;
+	}
+	if (nextSide === "left") {
+		rows.push({ left: current.item, stamp: formatStamp(current.item) });
+		nextSide = "right";
+	} else {
+		rows.push({ right: current.item, stamp: formatStamp(current.item) });
+		nextSide = "left";
+	}
+	i += 1;
+}
+
+const colorMap = {
+	red: "#5f0d15",
+	green: "#093523",
+	blue: "#0b1d44",
+} as const;
+
+const accentMap = {
+	red: "#ff8b96",
+	green: "#6fffba",
+	blue: "#7db3ff",
+} as const;
+
+const pickColorKey = (item?: TimelineItem) => item?.tagColor ?? "red";
+const pickBgColor = (item?: TimelineItem) => colorMap[pickColorKey(item) as keyof typeof colorMap];
+const pickAccent = (item?: TimelineItem) => accentMap[pickColorKey(item) as keyof typeof accentMap];
+
+const buildDotStyle = (left?: TimelineItem, right?: TimelineItem) => {
+	const base = left ?? right;
+	const primary = pickBgColor(base);
+	if (left && right) {
+		const leftColor = pickBgColor(left);
+		const rightColor = pickBgColor(right);
+		if (leftColor !== rightColor) {
+			return `background: linear-gradient(135deg, ${leftColor}, ${rightColor}); border-color: ${rightColor}; color: #fff;`;
+		}
+	}
+	const textColor = pickAccent(base);
+	return `background: ${primary}; border-color: ${primary}; color: ${textColor};`;
+};
+
+const displayRows = rows.map((row, idx) => ({
+	...row,
+	displayStamp: idx === 0 ? presentLabel : row.stamp,
+	dotStyle: buildDotStyle(row.left, row.right),
+}));
+
+---
+
+<div class="parallel">
+	<div class="parallel__line" aria-hidden="true"></div>
+	{displayRows.map((row) => (
+		<details class="parallel__row">
+			<summary class="parallel__summary">
+				<span
+					class={`parallel__dot ${row.displayStamp === presentLabel ? "is-present" : ""}`}
+					style={row.dotStyle}
+				>
+					{row.displayStamp}
+				</span>
+			</summary>
+			<div class="parallel__grid">
+				{row.left ? (
+					<article class="parallel__card parallel__card--left">
+						<p class={`parallel__tag ${row.left.tagColor ?? "red"}`}>{row.left.tag}</p>
+						<h3>{row.left.subtitle ?? row.left.title}</h3>
+						{row.left.subtitle && row.left.title && (
+							<p class="parallel__subtitle parallel__subtitle--secondary">{row.left.title}</p>
+						)}
+						<p class="parallel__date">{row.left.date}</p>
+						{row.left.description && <p class="parallel__body">{row.left.description}</p>}
+					</article>
+				) : (
+					<div class="parallel__spacer" aria-hidden="true"></div>
+				)}
+				<div class="parallel__axis-column" aria-hidden="true">
+					<div class="parallel__axis-line"></div>
+				</div>
+				{row.right ? (
+					<article class="parallel__card parallel__card--right">
+						<p class={`parallel__tag ${row.right.tagColor ?? "red"}`}>{row.right.tag}</p>
+						<h3>{row.right.subtitle ?? row.right.title}</h3>
+						{row.right.subtitle && row.right.title && (
+							<p class="parallel__subtitle parallel__subtitle--secondary">{row.right.title}</p>
+						)}
+						<p class="parallel__date">{row.right.date}</p>
+						{row.right.description && <p class="parallel__body">{row.right.description}</p>}
+					</article>
+				) : (
+					<div class="parallel__spacer" aria-hidden="true"></div>
+				)}
+			</div>
+		</details>
+	))}
+</div>
+
+<style>
+	.parallel {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: 1.4rem;
+		padding: 1rem 0;
+	}
+	.parallel__line {
+		position: absolute;
+		left: 50%;
+		top: 0;
+		bottom: 0;
+		width: 2px;
+		background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+	}
+	.parallel__row {
+		position: relative;
+		padding: 0.4rem 0 0.4rem;
+	}
+	.parallel__row:not(:last-child) {
+		margin-bottom: 1rem;
+	}
+	.parallel__summary {
+		list-style: none;
+		cursor: pointer;
+		display: flex;
+		justify-content: center;
+		margin: 0;
+		padding: 0.4rem 0;
+		width: 100%;
+	}
+	.parallel__summary::-webkit-details-marker {
+		display: none;
+	}
+	.parallel__grid {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) 90px minmax(0, 1fr);
+		gap: 1rem;
+		align-items: flex-start;
+		margin: 0.65rem 0 0.65rem;
+		max-height: 0;
+		opacity: 0;
+		pointer-events: none;
+		transform: translateY(-12px);
+		transition:
+			max-height 0.6s ease,
+			opacity 0.35s ease,
+			transform 0.4s ease;
+	}
+	.parallel__row[open] .parallel__grid {
+		max-height: 650px;
+		opacity: 1;
+		pointer-events: auto;
+		transform: translateY(0);
+	}
+	.parallel__card {
+		border-radius: 1.8rem;
+		padding: 1.5rem;
+		background: rgba(6, 9, 18, 0.9);
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+		position: relative;
+		transition: opacity 0.35s ease, transform 0.4s ease, border-color 0.3s ease;
+		opacity: 0;
+		transform: translateY(-8px);
+	}
+	.parallel__row[open] .parallel__card {
+		opacity: 1;
+		transform: translateY(0);
+		border-color: rgba(255, 255, 255, 0.2);
+	}
+	.parallel__spacer {
+		min-height: 80px;
+	}
+	@media (max-width: 900px) {
+		.parallel__grid {
+			grid-template-columns: 1fr;
+			gap: 0.6rem;
+			margin: 0.5rem 0 0.5rem;
+		}
+		.parallel__row {
+			padding: 0.5rem 0;
+		}
+		.parallel__summary {
+			padding: 0.3rem 0;
+		}
+		.parallel__spacer {
+			display: none;
+		}
+	}
+	.parallel__card h3 {
+		margin: 0;
+		font-size: 1.35rem;
+		color: #fff;
+	}
+	.parallel__tag {
+		display: inline-flex;
+		text-transform: uppercase;
+		letter-spacing: 0.4em;
+		font-size: 0.7rem;
+		padding: 0.3rem 1rem;
+		border-radius: 999px;
+		margin-bottom: 0.8rem;
+	}
+	.parallel__tag.red {
+		background: rgba(239, 51, 64, 0.18);
+		color: #ff8b96;
+	}
+	.parallel__tag.green {
+		background: rgba(12, 192, 115, 0.18);
+		color: #6fffba;
+	}
+	.parallel__tag.blue {
+		background: rgba(63, 127, 255, 0.18);
+		color: #7db3ff;
+	}
+	.parallel__subtitle {
+		margin: 0.4rem 0 0;
+		color: rgba(255, 255, 255, 0.7);
+	}
+	.parallel__subtitle--secondary {
+		font-size: 0.9rem;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: rgba(255, 255, 255, 0.5);
+	}
+	.parallel__date {
+		margin: 0.8rem 0 0;
+		font-size: 0.75rem;
+		letter-spacing: 0.35em;
+		text-transform: uppercase;
+		color: rgba(255, 255, 255, 0.5);
+	}
+	.parallel__body {
+		margin-top: 0.8rem;
+		color: rgba(255, 255, 255, 0.85);
+		line-height: 1.55;
+	}
+	.parallel__dot {
+		min-width: 120px;
+		padding: 0.75rem 1.1rem;
+		border-radius: 999px;
+		border: 1px solid rgba(255, 255, 255, 0.25);
+		background: rgba(255, 255, 255, 0.05);
+		font-family: "IBM Plex Mono", monospace;
+		font-size: 0.78rem;
+		letter-spacing: 0.3em;
+		color: rgba(255, 255, 255, 0.7);
+		text-transform: uppercase;
+		justify-self: center;
+		white-space: nowrap;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+	}
+	.parallel__row[open] .parallel__dot {
+		filter: brightness(1.25);
+		box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+	}
+	.parallel__row[open] .parallel__axis-line {
+		background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.2));
+	}
+	.parallel__dot.is-present {
+		background: rgba(239, 51, 64, 0.2);
+		border-color: rgba(239, 51, 64, 0.45);
+	}
+	.parallel__axis-column {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.parallel__axis-line {
+		width: 2px;
+		height: 100%;
+		background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+	}
+	@media (max-width: 900px) {
+		.parallel__axis-column {
+			display: none;
+		}
+	}
+</style>

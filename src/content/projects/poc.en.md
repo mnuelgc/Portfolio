@@ -1,9 +1,14 @@
 ---
+locale: en
+projectId: poc
 name: The Path Of Code
 fecha: May 2024
 img: /POC/pocode.png
-resume: Augmented Reality Game to Introduce Primary and Secondary Students to Programming
-stack: "{Unity}{C#}"
+resume: Augmented Reality Game to introduce Primary and Secondary students to programming
+stack:
+  - Unity
+  - C#
+  - Git
 ---
 
 This game is developed using **Unity** to ensure cross-platform compatibility, making it accessible on both **Android** and **iOS** devices. The central idea is to use physical cards that students scan with their devices to control the character’s movements within the game, learning programming concepts in a fun and tangible way.
